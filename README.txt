@@ -1,12 +1,12 @@
 Boomerang Rosalina's Basic Source Code Version.
 
-This source code includes code needed to run a Basic Moderation/Utility Bot.
+This source code includes code needed to run a Basic Moderation/Utility/Fun discord Bot.
 It includes Ban, Kick, Mute (with DMing case ability), Timeout (With DMing Case ability), Slowmode, Clear
-Serverinfo, Userinfo, Poll (for Yes and No polls), Giveaways (no reroll command though)
+Serverinfo, Userinfo, Poll (for Yes and No polls),
 8ball, and dice commands. (more included)
 
 SETUP
-1. Download this Source code
+1. Download or fork this Source code
 2. Copy main.py to your hosting provider/computer
 3. Towards the top at client = commands.Bot(command_prefix= commands.when_mentioned_or('br;')), replace br; with your prefix
 4. At the bottom with client.run("BOTTOKENHEREE"), replace BOTTOKENHERE with your bot token.
@@ -17,6 +17,8 @@ SETUP
 
 
 If you are looking for how to make NSFW commands, you should look here: https://github.com/ErisTheEagleArt/nsfwbot
+
+For now if you are wondering how to add a soundboard system in the bot, for now, go here: https://github.com/BoomerangRosalina/PeachMusic
 
 
 You can Fork, Modify, Edit, and even Self host our Source code for your discord bot.

@@ -389,84 +389,43 @@ async def pollyn_error(ctx, error):
     else:
         raise error
 
+
+
+
+
 @client.command()
-@commands.has_permissions(manage_guild=True)
-async def gsetup(ctx):
-    await ctx.send("The Giveaway is being set up. You will have 20 seconds to answer each question")
+async def eightball(ctx, *, question):
+    responses = ["Yes",
+                 "Heck Yeah",
+                 "Of Course",
+                 "My signs point to yes",
+                 "Possibly",
+                 "Very Likely",
+                 "Maybe",
+                 "My Sources points to no",
+                 "If you use your imagination",
+                 "I dont know that",
+                 "I dont understand what you mean by the question, can you specify what you mean?",
+                 "If you think I am answering that, then you have mistaken me for another bot"]
+    await ctx.send(f'8ball\n\nQuestion: {question}\nAnswer: {random.choice(responses)}', allowed_mentions=discord.AllowedMentions(roles=False, users=True, everyone=False))
 
-    questions = ["Which channel should the giveaway be hosted in? (mention a channel)",
-                 "What should the duration of the giveaway be? (s,m,h,d)",
-                 "What is the Prize of the Giveaway?"]
-
-    answers = []
-
-    def check(m):
-        return m.author == ctx.author and m.channel == ctx.channel
-
-    for i in questions:
-        await ctx.send(i)
-
-        try:
-            msg = await client.wait_for('message', timeout=20.0, check=check)
-        except asyncio.TimeoutError:
-            await ctx.send("You didnt answer in time. Please rerun the command again")
-            return
-        else:
-            answers.append(msg.content)
-
-
-    try:
-        c_id = int(answers[0][2:-1])
-    except:
-        await ctx.send("You did not mention a channel correctly")
-        return
-
-    channel = client.get_channel(c_id)
-
-    time = convert(answers[1])
-    if time == -1:
-        await ctx.send("You did not answer with the proper unit")
-        return
-    elif time == -2:
-        await ctx.send("The time must be an integer.")
-        return
-
-    prize = answers[2]
-
-    await ctx.send(f"Giveaway has been setup successfully. The Giveaway will be in {channel.mention} and will last {answers[1]}")
-
-
-    embed = discord.Embed(title = "Giveaway!", description = f"{prize}", color = ctx.author.color)
-
-    embed.add_field(name = "Hosted By:", value = ctx.author.mention)
-    
-    embed.set_footer(text = f"Ends {answers[1]} from now")
-
-    my_msg = await channel.send(embed = embed)
-
-
-    await my_msg.add_reaction("reactionhere")
-
-
-    await asyncio.sleep(time)
-
-
-    new_msg = await channel.fetch_message(my_msg.id)
-
-
-    users = await new_msg.reactions[0].users().flatten()
-    users.pop(users.index(client.user))
-
-    winner = random.choice(users)
-
-    await channel.send(f"Congrats! {winner.mention} won {prize}")
-
-@gsetup.error
-async def gsetup_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send('You are missing permissions. You need the ``MANAGE_GUILD`` Permission to use this command')
+@eightball.error
+async def eightball_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Uhm, What are you trying to ask me? rerun this command but this time add a question to ask me.")
     else:
         raise error
+
+@client.command()
+async def dice(ctx):
+    responses = ["1",
+                 "2",
+                 "3",
+                 "4",
+                 "5",
+                 "6"]
+    await ctx.send(f'You Rolled a: {random.choice(responses)}')
+
 
 
 
@@ -492,7 +451,7 @@ async def restart(ctx):
         await ctx.send("Restarting... This may take some time")
         restart_program()
     else:
-        await ctx.send("This command can only be used by Boomerang Rosalina/Boomerang Peach Developers")
+        await ctx.send("This command can only be used by Boomerang Rosalina Developers")
         return
 
 
