@@ -17,16 +17,22 @@ SETUP
 
 
 If you are looking for how to make NSFW commands, you should look here: https://github.com/ErisTheEagleArt/nsfwbot
-
 For now if you are wondering how to add a soundboard system in the bot, for now, go here: https://github.com/BoomerangRosalina/PeachMusic
 
-
+=======================================
+NOTES:
 You can Fork, Modify, Edit, and even Self host our Source code for your discord bot.
 THERE IS LITERALLY NO WARRENTY IF YOU DECIDE TO SELF HOST THIS BOT.
 Orignal Bot: https://discord.com/api/oauth2/authorize?client_id=877686202906583060&permissions=67497174&scope=bot
 
-=======================================
+WARNING:
+If you are using Python 3.9 or higher, the timeout command may not work anymore. You may encounter this error:
+Command raised an exception: RuntimeError: Timeout context manager should be used inside a task
+I have no idea how to fix this so instead, stay with Python versions lower than 3.9.
+Same goes with the avatar part of the code in the serverinfo and userinfo command.
+If you know how to fix this issue, open a issue on this github page.
 
+=======================================
 LINKS:
 
 MAIN STUFF:
@@ -36,17 +42,4 @@ Twitter: https://twitter.com/DevRosalina
 Github Page: https://github.com/BoomerangRosalina
 Subreddit: https://www.reddit.com/r/BoomRosalinaDev/
 
-CHECK OUT OUR TEAM'S SOCIAL MEDIA
->>AMarioLover#3304 - 839289231305605120 - The Co-owner
-Reddit Account: https://www.reddit.com/user/AMarioLover
-Twitter Account: https://twitter.com/AMarioLover1
-
->>Cat Rosalina#8088 - 882011182125416518 - Website Developer
-Youtube: https://www.youtube.com/channel/UCaCb1JiKXlyNo3sdEq6xXgQ
-Twitter: https://twitter.com/CatRosalina1
-
->>AXOL#9358 - 892974351626928180 - Helper and Builder of Funtime Foxy#3607
-Youtube: https://www.youtube.com/channel/UChBm9wK2m5SuFzAUuPHuULg
-Twitter: https://twitter.com/AxolDemon
-Reddit: https://www.reddit.com/user/BelleMR
-Github: https://github.com/BelleMetaRunnnerDev
+CHECK OUT OUR TEAM'S SOCIAL MEDIA HERE:

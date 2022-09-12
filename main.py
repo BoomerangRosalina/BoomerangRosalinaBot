@@ -13,7 +13,7 @@ client.session = aiohttp.ClientSession()
 @client.event
 async def on_ready():
     await client.change_presence(status=discord.Status.online)
-    print("Boomerang Rosalina is Online")
+    print("Boomerang Rosalina is now Online")
 
 def convert(time):
   pos = ["s","m","h","d"]
@@ -32,13 +32,16 @@ def convert(time):
 
   return val * time_dict[unit]
 
+
+
 @client.command()
 async def help(ctx):
     embed = discord.Embed(title="Boomerang Rosalina", description="MY PREFIX IS: br; or my mention", color=(64255))
-    embed.add_field(name = "CORE COMMANDS", value = "br;help - This Message\nbr;ping - Gets the Latency of the Bot\nbr;invite - Get the link to invite the bot AND get a link to its support server\nbr;botinfo - Get Information about the bot", inline=False)
-    embed.add_field(name = "MODERATION COMMANDS", value = "br;slowmode - Adjusts the slowmode of a channel\nbr;lock - Locks a text channel for @ everyone.\nbr;unlock - Unlocks a text channel for @ everyone\nbr;clear - Clears a certain amount of messages\nbr;kick - Kicks a member from the server\nbr;ban - Bans a member from the server.\nbr;timeout - Time out a member from talking in the server\nbr;mute - Mutes a member\nbr;unmute - Unmutes a Member", inline=False)
-    embed.add_field(name = "UTILITY COMMANDS", value = "br;serverinfo - Get information about your server\nbr;userinfo - Get information about yourself or another person\nbr;say - Make the bot say things\nbr;esay - Make the bot say things in a embed\nbr;pollyn - Make a Yes/No Poll\nbr;gsetup - Set up a giveaway for your server", inline=False)
-    embed.add_field(name = "MISC", value = "br;createmuterole - Create a Mute role for the mute command\nbr;eightball - Ask the Magic 8Ball things\nbr;dice - Roll a 1-6 dice", inline=False)
+    embed.add_field(name="CORE COMMANDS", value="br;help - This Message\nbr;ping - Gets the Latency of the Bot\nbr;botinfo - Get Information about the bot", inline=False)
+    embed.add_field(name="MODERATION COMMANDS", value="br;slowmode - Adjusts the slowmode of a channel\nbr;lock - Locks a text channel for @ everyone.\nbr;unlock - Unlocks a text channel for @ everyone\nbr;clear - Clears a certain amount of messages\nbr;kick - Kicks a member from the server\nbr;ban - Bans a member from the server.\nbr;timeout - Time out a member from talking in the server\nbr;mute - Mutes a member\nbr;unmute - Unmutes a Member", inline=False)
+    embed.add_field(name="UTILITY COMMANDS", value="br;serverinfo - Get information about your server\nbr;userinfo - Get information about yourself or another person\nbr;say - Make the bot say things\nbr;esay - Make the bot say things in a embed\nbr;pollyn - Make a Yes/No Poll\nbr;gsetup - Set up a giveaway for your server", inline=False)
+    embed.add_field(name="MISC", value="br;createmuterole - Create a Mute role for the mute command\nbr;eightball - Ask the Magic 8Ball things\nbr;dice - Roll a 1-6 dice", inline=False)
+    embed.add_field(name="DEVELOPER COMMANDS", value="br;restart - Restarts the Bot", inline=False)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -46,16 +49,12 @@ async def ping(ctx):
     await ctx.send(f'Pong! My Latency is {round(client.latency * 1000)}ms')
 
 @client.command()
-async def invite(ctx):
-    embed = discord.Embed(title="Invite", description="Invite me here: https://discord.com/api/oauth2/authorize?client_id=877686202906583060&permissions=0&scope=bot\n\nOur Support Server: https://discord.gg/cbqDfn8jvd", color=(64255))
-    await ctx.send(embed=embed)
-
-@client.command()
 async def botinfo(ctx):
     embed = discord.Embed(title="Boomerang Rosalina | Bot Info", description="My Developers: Boomerang Mario#5018 and AMarioLover#3304", color=(64255))
-    embed.add_field(name = "STATS", value = f"Servers I am in: {len(client.guilds)}", inline=False)
-    embed.add_field(name = "PRIVACY POLICY", value = "The Bots Privacy Policy can be found here: https://boomerangrosalina.glitch.me/brprivacy.html", inline=False)
-    embed.add_field(name = "CREDITS", value = "Orignal Source Code: https://github.com/BoomerangRosalina/BoomerangRosalina", inline=False)
+    embed.add_field(name="STATS", value=f"Servers I am in: {len(client.guilds)}", inline=False)
+    embed.add_field(name="Invite", value="Invite me here: https://discord.com/api/oauth2/authorize?client_id=877686202906583060&permissions=0&scope=bot\nOur Support Server: https://discord.gg/cbqDfn8jvd", inline=False)
+    embed.add_field(name="PRIVACY POLICY", value="The Bots Privacy Policy can be found here: https://boomerangrosalina.glitch.me/brprivacy.html", inline=False)
+    embed.add_field(name="CREDITS", value="Orignal Source Code: https://github.com/BoomerangRosalina/BoomerangRosalina", inline=False)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -430,16 +429,7 @@ async def dice(ctx):
 
 
 
-
-
-
 botdev = [872608213076426763, 839289231305605120]
-
-@client.command()
-async def owners(ctx):
-    embed = discord.Embed(title="Boomerang Rosalina Owner Commands", description="These commands can only be executed by the Bot Developers and owner", color=(64255))
-    embed.add_field(name="UTILITIES", value="br;restart - Restarts the Bot", inline=False)
-    await ctx.send(embed=embed)
 
 def restart_program():
     python = sys.executable
@@ -453,6 +443,8 @@ async def restart(ctx):
     else:
         await ctx.send("This command can only be used by Boomerang Rosalina Developers")
         return
+
+
 
 
 
