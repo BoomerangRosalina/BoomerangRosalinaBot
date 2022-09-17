@@ -6,7 +6,9 @@ import random
 import sys
 import aiohttp
 
-client = commands.Bot(command_prefix= commands.when_mentioned_or('br;'))
+intents = discord.Intents.default()
+intents.message_content = True
+client = commands.Bot(command_prefix=commands.when_mentioned_or('br;'), intents=intents)
 client.remove_command("help")
 client.session = aiohttp.ClientSession()
 
@@ -81,7 +83,6 @@ async def esay_error(ctx, error):
         await ctx.send("What do you want me to say?")
     else:
         raise error
-
 
 
 
@@ -209,19 +210,10 @@ async def ban_error(ctx, error):
     else:
         raise error
 
-async def timeout_user(*, user_id: int, guild_id: int, until):
-    headers = {"Authorization": f"Bot {client.http.token}"}
-    url = f"https://discord.com/api/v9/guilds/{guild_id}/members/{user_id}"
-    timeout = (datetime.datetime.utcnow() + datetime.timedelta(minutes=until)).isoformat()
-    json = {'communication_disabled_until': timeout}
-    async with client.session.patch(url, json=json, headers=headers) as session:
-        if session.status in range(200, 299):
-           return True
-        return False
-
 @client.command()
-@commands.has_permissions(kick_members=True)
-async def timeout(ctx: commands.Context, member: discord.Member, until: int, *, reason=None):
+@commands.has_permissions(moderate_members=True)
+@commands.bot_has_permissions(moderate_members=True)
+async def timeout(ctx, member: discord.Member, until: int, *, reason=None):
     if member == ctx.message.author:
         await ctx.channel.send("Why would you timeout yourself? That sounds stupid")
         return
@@ -229,26 +221,25 @@ async def timeout(ctx: commands.Context, member: discord.Member, until: int, *, 
         await ctx.send("What have I done to deserve this?")
         return
     if reason == None:
-        reason = "No Reason provided by Mod"
-    
-    handshake = await timeout_user(user_id=member.id, guild_id=ctx.guild.id, until=until)
+        reason = "UNSPECIFIED REASON [USED BOOMERANG ROSALINA]"
 
+    duration = datetime.timedelta(minutes=until)
+    await member.timeout(duration, reason=reason)
     try:
-        embed = discord.Embed(title="TIMEOUT", description=f"You have been Timed out from: {ctx.guild.name}\nTimeout time: {until} minutes\nReason: {reason}\nResponsible Moderator: {ctx.author.display_name}", color=(16755968))
+        embed = discord.Embed(title="TIMEOUT", description=f"You have been Timed out from: **{ctx.guild.name}**\nTimeout time: **{until} minutes**\nReason: **{reason}**\nResponsible Moderator: **{ctx.author.display_name}**", color=(16755968))
         await member.send(embed=embed)
+        await ctx.send(f"Successfully timed out {member.mention} for {until} minutes for **{reason}**")
     except:
-        await ctx.send("The user had DMs off or has blocked me. Therefor, I cant DM them the case details")
-    
-    if handshake:
-        return await ctx.send(f"Successfully timed out {member.mention} for {until} minutes for {reason}")
-    await ctx.send("Something went wrong. I may not have the TIMEOUT_MEMBERS permission or the person you are trying to timeout has a higher role than me.")
+        await ctx.send(f"Successfully timed out {member.mention} for {until} minutes for **{reason}**\n\nThe user had DMs off or has blocked me. Therefor, I cant DM them the case details")
 
 @timeout.error
 async def timeout_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("You need to mention who you want to timeout and specify the minutes. (example: br;timeout @Usermention 5)")
+        await ctx.send("You need to mention who you want to timeout and specify the minutes. (example: bp;timeout @Usermention 5)")
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You need to have the ``KICK_MEMBERS`` Permission (timeout members permission) to use this command.")
+        await ctx.send("You need to have the ``MODERATE_MEMBERS`` Permission (timeout members permission) to use this command.")
+    if isinstance(error, commands.BotMissingPermissions):
+        await ctx.send("I do not have the ``MODERATE_MEMBERS`` Permission to execute this command.")
     else:
         raise error
 
@@ -339,7 +330,6 @@ async def createmuterole_error(ctx, error):
 
 
 
-
 format = "%a, %d %b %Y | %H:%M:%S %ZGMT"
 
 @client.command(aliases=["_serverinfo", "si", "serverstats"])
@@ -353,7 +343,7 @@ async def serverinfo(ctx):
     channels = text_channels + voice_channels
     embed.add_field(name = "Channel Count", value = f"Channels: **{channels}**\nText Channels; **{text_channels}**\nVoice Channels; **{voice_channels}**\nCategories; **{categories}**", inline=False)
     embed.add_field(name = "Boosters", value = f"BOOST COUNT: Server Boost Count: {ctx.guild.premium_subscription_count}\nBOOSTER SUBSCRIBERS: {ctx.guild.premium_subscribers}", inline=False)
-    embed.set_thumbnail(url=ctx.guild.icon_url)
+    embed.set_thumbnail(url=ctx.guild.icon)
     embed.set_footer(text="Boomerang Rosalina")
     await ctx.send(embed=embed)
 
@@ -369,7 +359,7 @@ async def userinfo(ctx, *, user: discord.Member = None):
     perm_string = ', '.join([str(p[0]).replace("_", " ").title() for p in user.guild_permissions if p[1]])
     embed.add_field(name="Guild permissions", value=perm_string, inline=False)
     embed.set_footer(text="Boomerang Rosalina")
-    embed.set_thumbnail(url=user.avatar_url)
+    embed.set_thumbnail(url=user.avatar)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -387,7 +377,6 @@ async def pollyn_error(ctx, error):
         await ctx.send("You are missing required arguments or arguments are invalid\n\nbr;poll <question>")
     else:
         raise error
-
 
 
 
@@ -428,7 +417,6 @@ async def dice(ctx):
 
 
 
-
 botdev = [872608213076426763, 839289231305605120]
 
 def restart_program():
@@ -443,7 +431,6 @@ async def restart(ctx):
     else:
         await ctx.send("This command can only be used by Boomerang Rosalina Developers")
         return
-
 
 
 
